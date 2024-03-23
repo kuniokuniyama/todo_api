@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql-test
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - mysql_log:/var/log/mysql
+      - mysql_conf:/etc/mysql
+      - ./mysql/initdb.d:/docker-entrypoint-initdb.d
+  spring:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: spring-test
+    environment:
+      - MYSQL_HOST=${MYSQL_HOST}
+      - MYSQL_PORT=${MYSQL_PORT}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    tty: true
+    working_dir: /app
+    volumes:
+      - ./src:/app/src
+      - ./build.gradle:/app/build.gradle
+      - ./gradlew:/app/gradlew
+      - ./gradle:/app/gradle
+      - ./settings.gradle:/app/settings.gradle
+    ports:
+      - 8080:8080
+      - 5050:5050
+    depends_on:
+      - mysql
+volumes:
+  mysql_data:
+  mysql_log:
+  mysql_conf:
