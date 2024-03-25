@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.TodoAPI.mapper.TodoMapper">
+    <select id="findAll" resultType="com.example.TodoAPI.model.Todo">
+        SELECT * FROM todos
+    </select>
+
+    <select id="findById" resultType="com.example.TodoAPI.model.Todo">
+        SELECT * FROM todos WHERE id = #{id}
+    </select>
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO todos (title, description, is_completed, due_date, created_at)
+        VALUES (#{title}, #{description}, #{isCompleted}, #{dueDate}, #{createdAt})
+    </insert>
+
+    <update id="update">
+        UPDATE todos
+        SET title = #{todo.title}, description = #{todo.description},
+            is_completed = #{todo.isCompleted}, due_date = #{todo.dueDate}, created_at = #{todo.createdAt}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM todos WHERE id = #{id}
+    </delete>
+</mapper>
