@@ -11,4 +11,4 @@ COPY settings.gradle /app
 RUN chmod +x ./gradlew
 
 # イメージからコンテナを作成・起動する際に実行されるコマンド
-CMD [ "/bin/bash", "-c", "./gradlew bootRun" ]
+ENTRYPOINT [ "/bin/bash", "-c", "./gradlew bootRun" ]
