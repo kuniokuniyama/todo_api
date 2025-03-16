@@ -9,6 +9,9 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      TZ: Asia/Tokyo
+      LANG: C.UTF-8
+      LC_ALL: C.UTF-8
     ports:
       - "3307:3306"
     volumes:
